@@ -16,7 +16,16 @@ function handleClick(e: MouseEvent) {
 
   if (!wrapper) return;
 
-  const p = createParticle(e.clientX, e.clientY, wrapper);
+  let x = e.clientX;
+  let y = e.clientY;
+
+  if (e.detail === 0 && e.currentTarget instanceof HTMLElement) {
+    const r = e.currentTarget.getBoundingClientRect();
+    x = r.left + r.width / 2;
+    y = r.top + r.height / 2;
+  }
+
+  const p = createParticle(x, y, wrapper);
   particles.push(p);
 
   setTimeout(() => {
@@ -25,7 +34,7 @@ function handleClick(e: MouseEvent) {
 }
 
 function handleKeyDown(e: KeyboardEvent) {
-  if (e.repeat) {
+  if (e.repeat && (e.code === "Enter" || e.code === "Space")) {
     e.preventDefault();
     holding = true;
   }
