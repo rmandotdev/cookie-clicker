@@ -9,13 +9,14 @@
     "build": "vite build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "deploy": "wrangler deploy",
+    "deploy": "bun run --sequential build wrangler:deploy",
     "dev": "vite dev",
     "format": "biome check --write",
     "lint": "biome check",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
-    "test": "bun test"
+    "test": "bun test",
+    "wrangler:deploy": "wrangler deploy"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
