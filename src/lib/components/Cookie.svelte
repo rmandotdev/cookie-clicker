@@ -1,10 +1,27 @@
 <script lang="ts">
 import { game } from "$lib/game.svelte";
+import {
+  createParticle,
+  PARTICLE_LIFETIME,
+  type Particle,
+} from "$lib/particles";
 
 let holding = $state(false);
 
-function handleClick() {
+let particles: Particle[] = $state([]);
+let wrapper: HTMLDivElement | null = $state(null);
+
+function handleClick(e: MouseEvent) {
   game.click();
+
+  if (!wrapper) return;
+
+  const p = createParticle(e.clientX, e.clientY, wrapper);
+  particles.push(p);
+
+  setTimeout(() => {
+    particles = particles.filter((q) => q.id !== p.id);
+  }, PARTICLE_LIFETIME);
 }
 
 function handleKeyDown(e: KeyboardEvent) {
@@ -19,7 +36,7 @@ function handleKeyUp() {
 }
 </script>
 
-<div class="cookie-wrapper">
+<div class="cookie-wrapper" bind:this={wrapper}>
   <button
     type="button"
     class="cookie-btn"
@@ -30,6 +47,15 @@ function handleKeyUp() {
   >
     🍪
   </button>
+
+  {#each particles as particle (particle.id)}
+    <div
+      class="particle"
+      style="--sx: {particle.x}px; --sy: {particle.y}px; animation-delay: {particle.delay}s;"
+    >
+      🍪
+    </div>
+  {/each}
 
   {#if holding}
     <div class="tooltip">Nice try! Holding Enter won't work here 😉</div>
@@ -76,6 +102,35 @@ function handleKeyUp() {
   font-size: 0.875rem;
   pointer-events: none;
   animation: fadeIn 0.2s ease;
+}
+
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.25rem;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  animation: cookiePop 0.6s ease-out both;
+}
+
+@keyframes cookiePop {
+  0% {
+    transform: translate(calc(var(--sx) - 50%), calc(var(--sy) - 50%))
+      translateY(0) scale(0.5);
+    opacity: 1;
+  }
+  35% {
+    transform: translate(calc(var(--sx) - 50%), calc(var(--sy) - 50%))
+      translateY(-50px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--sx) - 50%), calc(var(--sy) - 50%))
+      translateY(50px) scale(0.3);
+    opacity: 0;
+  }
 }
 
 @keyframes fadeIn {
