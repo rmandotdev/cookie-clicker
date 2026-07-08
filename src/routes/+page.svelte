@@ -86,6 +86,7 @@ onMount(() => {
 .shop-section {
   width: 20rem;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 @media (max-width: 1100px) {

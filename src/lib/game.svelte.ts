@@ -1,4 +1,11 @@
-import { itemCost } from "./helpers";
+import {
+  computeClickPower,
+  computeCps,
+  getItemCost,
+  initialItemsOwned,
+  isUnlocked,
+  tryBuyItem,
+} from "./game";
 import { items } from "./items";
 
 const SAVE_KEY = "cookie-clicker-save";
@@ -6,37 +13,42 @@ const SAVE_KEY = "cookie-clicker-save";
 function createGameState() {
   let cookies = $state(0);
   let totalCookies = $state(0);
-  let itemsOwned = $state(items.map(() => 0));
+  let itemsOwned = $state<Record<string, number>>(initialItemsOwned());
 
-  const cps = $derived(
-    items.reduce((sum, item, i) => sum + item.cps * itemsOwned[i], 0),
-  );
-
-  const clickPower = $derived(
-    items.reduce((sum, item, i) => sum + item.clickBonus * itemsOwned[i], 0) +
-      1,
-  );
+  const cps = $derived(computeCps(itemsOwned));
+  const clickPower = $derived(computeClickPower(itemsOwned));
 
   function click() {
     cookies += clickPower;
     totalCookies += clickPower;
   }
 
-  function getItemCost(index: number): number {
-    return itemCost(items[index].baseCost, itemsOwned[index]);
+  function buyItem(itemId: string): boolean {
+    const item = items.find((i) => i.id === itemId);
+    if (!item) return false;
+
+    const result = tryBuyItem(item, { itemsOwned, cookies, totalCookies });
+    if (!result.success) return false;
+
+    cookies = result.ctx.cookies;
+    totalCookies = result.ctx.totalCookies;
+    itemsOwned = result.ctx.itemsOwned;
+    return true;
   }
 
-  function buyItem(index: number): boolean {
-    const cost = getItemCost(index);
-    if (cookies >= cost) {
-      cookies -= cost;
-      itemsOwned[index] += 1;
-      return true;
-    }
-    return false;
+  function checkUnlocked(itemId: string): boolean {
+    const item = items.find((i) => i.id === itemId);
+    if (!item) return false;
+    return isUnlocked(item, { itemsOwned, cookies, totalCookies });
   }
 
-  function tick(deltaSeconds: number) {
+  function itemCost(itemId: string): number {
+    const item = items.find((i) => i.id === itemId);
+    if (!item) return 0;
+    return getItemCost(item, itemsOwned);
+  }
+
+  function tickGame(deltaSeconds: number) {
     const clamped = Math.min(deltaSeconds, 1);
     const gained = cps * clamped;
     cookies += gained;
@@ -65,10 +77,7 @@ function createGameState() {
       const state = JSON.parse(raw);
       cookies = state.cookies ?? 0;
       totalCookies = state.totalCookies ?? 0;
-      const savedOwned = state.itemsOwned;
-      itemsOwned = savedOwned
-        ? items.map((_, i) => savedOwned[i] ?? 0)
-        : items.map(() => 0);
+      itemsOwned = { ...initialItemsOwned(), ...state.itemsOwned };
 
       const elapsed = (Date.now() - (state.timestamp ?? Date.now())) / 1000;
       const offlineGain = cps * Math.min(elapsed, 3_600);
@@ -82,7 +91,7 @@ function createGameState() {
   function reset() {
     cookies = 0;
     totalCookies = 0;
-    itemsOwned = items.map(() => 0);
+    itemsOwned = initialItemsOwned();
     try {
       localStorage.removeItem(SAVE_KEY);
     } catch {
@@ -107,9 +116,10 @@ function createGameState() {
       return clickPower;
     },
     click,
-    getItemCost,
     buyItem,
-    tick,
+    checkUnlocked,
+    itemCost,
+    tick: tickGame,
     save,
     load,
     reset,

@@ -1,3 +1,9 @@
+export interface UnlockContext {
+  itemsOwned: Record<string, number>;
+  cookies: number;
+  totalCookies: number;
+}
+
 export interface Item {
   id: string;
   name: string;
@@ -6,6 +12,7 @@ export interface Item {
   cps: number;
   clickBonus: number;
   emoji: string;
+  requires?: (ctx: UnlockContext) => boolean;
 }
 
 /**
@@ -29,6 +36,7 @@ export const items: Item[] = [
     cps: 0,
     clickBonus: 1,
     emoji: "🖐️",
+    requires: (ctx) => ctx.itemsOwned.cursor > 0,
   },
   {
     id: "grandma",
@@ -38,6 +46,17 @@ export const items: Item[] = [
     cps: 1,
     clickBonus: 0,
     emoji: "👵",
+    requires: (ctx) => ctx.itemsOwned["reinforced-finger"] > 0,
+  },
+  {
+    id: "iron-knuckles",
+    name: "Iron Knuckles",
+    description: "+2 cookies per click.",
+    baseCost: 500,
+    cps: 0,
+    clickBonus: 2,
+    emoji: "✊",
+    requires: (ctx) => ctx.itemsOwned.grandma > 0,
   },
   {
     id: "farm",
@@ -47,6 +66,17 @@ export const items: Item[] = [
     cps: 8,
     clickBonus: 0,
     emoji: "🌾",
+    requires: (ctx) => ctx.itemsOwned["iron-knuckles"] > 0,
+  },
+  {
+    id: "golden-gloves",
+    name: "Golden Gloves",
+    description: "+5 cookies per click.",
+    baseCost: 5_000,
+    cps: 0,
+    clickBonus: 5,
+    emoji: "🥊",
+    requires: (ctx) => ctx.itemsOwned.farm > 0,
   },
   {
     id: "mine",
@@ -56,6 +86,17 @@ export const items: Item[] = [
     cps: 47,
     clickBonus: 0,
     emoji: "⛏️",
+    requires: (ctx) => ctx.itemsOwned["golden-gloves"] > 0,
+  },
+  {
+    id: "diamond-fingers",
+    name: "Diamond Fingers",
+    description: "+20 cookies per click.",
+    baseCost: 60_000,
+    cps: 0,
+    clickBonus: 20,
+    emoji: "💎",
+    requires: (ctx) => ctx.itemsOwned.mine > 0,
   },
   {
     id: "factory",
@@ -65,5 +106,126 @@ export const items: Item[] = [
     cps: 260,
     clickBonus: 0,
     emoji: "🏭",
+    requires: (ctx) => ctx.itemsOwned["diamond-fingers"] > 0,
+  },
+  {
+    id: "quantum-clicker",
+    name: "Quantum Clicker",
+    description: "+100 cookies per click.",
+    baseCost: 600_000,
+    cps: 0,
+    clickBonus: 100,
+    emoji: "⚡",
+    requires: (ctx) => ctx.itemsOwned.factory > 0,
+  },
+  {
+    id: "bank",
+    name: "Bank",
+    description: "Generates interest on your cookie fortune.",
+    baseCost: 1_400_000,
+    cps: 1_400,
+    clickBonus: 0,
+    emoji: "🏦",
+    requires: (ctx) => ctx.itemsOwned["quantum-clicker"] > 0,
+  },
+  {
+    id: "vampire",
+    name: "Vampire",
+    description: "+500 cookies per click.",
+    baseCost: 7_000_000,
+    cps: 0,
+    clickBonus: 500,
+    emoji: "",
+    requires: (ctx) => ctx.itemsOwned.bank > 0,
+  },
+  {
+    id: "temple",
+    name: "Temple",
+    description: "Sends monks to pray for cookies.",
+    baseCost: 20_000_000,
+    cps: 7_800,
+    clickBonus: 0,
+    emoji: "⛩️",
+    requires: (ctx) => ctx.itemsOwned.vampire > 0,
+  },
+  {
+    id: "cosmic-tap",
+    name: "Cosmic Tap",
+    description: "+2,000 cookies per click.",
+    baseCost: 100_000_000,
+    cps: 0,
+    clickBonus: 2_000,
+    emoji: "🌌",
+    requires: (ctx) => ctx.itemsOwned.temple > 0,
+  },
+  {
+    id: "wizard-tower",
+    name: "Wizard Tower",
+    description: "Conjures cookies with powerful spells.",
+    baseCost: 330_000_000,
+    cps: 44_000,
+    clickBonus: 0,
+    emoji: "🧙",
+    requires: (ctx) => ctx.itemsOwned["cosmic-tap"] > 0,
+  },
+  {
+    id: "arcane-touch",
+    name: "Arcane Touch",
+    description: "+10,000 cookies per click.",
+    baseCost: 1_500_000_000,
+    cps: 0,
+    clickBonus: 10_000,
+    emoji: "🔮",
+    requires: (ctx) => ctx.itemsOwned["wizard-tower"] > 0,
+  },
+  {
+    id: "portal",
+    name: "Portal",
+    description: "Opens a gateway to the cookie dimension.",
+    baseCost: 5_100_000_000,
+    cps: 260_000,
+    clickBonus: 0,
+    emoji: "🌀",
+    requires: (ctx) => ctx.itemsOwned["arcane-touch"] > 0,
+  },
+  {
+    id: "omni-click",
+    name: "Omni-Click",
+    description: "+50,000 cookies per click.",
+    baseCost: 25_000_000_000,
+    cps: 0,
+    clickBonus: 50_000,
+    emoji: "🕹️",
+    requires: (ctx) => ctx.itemsOwned.portal > 0,
+  },
+  {
+    id: "time-machine",
+    name: "Time Machine",
+    description: "Bakes cookies from the past and future.",
+    baseCost: 75_000_000_000,
+    cps: 1_600_000,
+    clickBonus: 0,
+    emoji: "⏳",
+    requires: (ctx) => ctx.itemsOwned["omni-click"] > 0,
+  },
+  {
+    id: "timeless-tap",
+    name: "Timeless Tap",
+    description: "+250,000 cookies per click.",
+    baseCost: 400_000_000_000,
+    cps: 0,
+    clickBonus: 250_000,
+    emoji: "⌛",
+    requires: (ctx) => ctx.itemsOwned["time-machine"] > 0,
+  },
+  {
+    id: "antimatter-condenser",
+    name: "Antimatter Condenser",
+    description: "Annihilates matter to produce cookies.",
+    baseCost: 1_000_000_000_000,
+    cps: 10_000_000,
+    clickBonus: 0,
+    emoji: "⚛️",
+    requires: (ctx) => ctx.itemsOwned["timeless-tap"] > 0,
   },
 ];

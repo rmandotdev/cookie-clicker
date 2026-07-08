@@ -2,14 +2,16 @@
 import { game } from "$lib/game.svelte";
 import { formatNumber } from "$lib/helpers";
 import { items } from "$lib/items";
+
+let unlocked = $derived(items.filter((item) => game.checkUnlocked(item.id)));
 </script>
 
 <div class="shop-panel">
   <h2 class="shop-title">Shop</h2>
   <div class="shop-list">
-    {#each items as item, i}
-      {@const owned = game.itemsOwned[i]}
-      {@const cost = game.getItemCost(i)}
+    {#each unlocked as item}
+      {@const owned = game.itemsOwned[item.id]}
+      {@const cost = game.itemCost(item.id)}
       {@const affordable = game.cookies >= cost}
       <div class="shop-item" class:affordable>
         <span class="item-emoji">{item.emoji}</span>
@@ -19,14 +21,14 @@ import { items } from "$lib/items";
             <span class="item-count">[{owned}]</span>
           </div>
           <div class="item-cps">
-            {item.clickBonus > 0 ? `+${item.clickBonus} per click` : `${formatNumber(item.cps)}/s each`}
+            {item.clickBonus > 0 ? `+${item.clickBonus.toLocaleString()} per click` : `${formatNumber(item.cps)}/s each`}
           </div>
         </div>
         <button
           type="button"
           class="buy-btn"
           disabled={!affordable}
-          onclick={() => game.buyItem(i)}
+          onclick={() => game.buyItem(item.id)}
         >
           🍪 {formatNumber(cost)}
         </button>
