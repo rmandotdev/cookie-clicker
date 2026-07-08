@@ -8,16 +8,10 @@ export interface Item {
   emoji: string;
 }
 
+/**
+ * Shop items. Sorted by `baseCost`
+ */
 export const items: Item[] = [
-  {
-    id: "reinforced-finger",
-    name: "Reinforced Finger",
-    description: "+1 cookie per click.",
-    baseCost: 50,
-    cps: 0,
-    clickBonus: 1,
-    emoji: "🖐️",
-  },
   {
     id: "cursor",
     name: "Cursor",
@@ -26,6 +20,15 @@ export const items: Item[] = [
     cps: 0.1,
     clickBonus: 0,
     emoji: "🖱️",
+  },
+  {
+    id: "reinforced-finger",
+    name: "Reinforced Finger",
+    description: "+1 cookie per click.",
+    baseCost: 50,
+    cps: 0,
+    clickBonus: 1,
+    emoji: "🖐️",
   },
   {
     id: "grandma",

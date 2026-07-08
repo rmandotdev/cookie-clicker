@@ -41,7 +41,7 @@ import { items } from "$lib/items";
   border: 1px solid #27272a;
   border-radius: 0.75rem;
   padding: 1rem;
-  width: 18rem;
+  width: 20rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;

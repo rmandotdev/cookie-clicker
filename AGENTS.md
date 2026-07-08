@@ -11,3 +11,7 @@ bun format
 ```
 
 Never try to format the code manually, let the command handle it
+
+## Codebase
+
+Svelte 5

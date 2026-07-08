@@ -63,8 +63,8 @@ onMount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
   padding: 1rem 2rem;
+  position: relative;
 }
 
 .cookie-section {
@@ -74,6 +74,9 @@ onMount(() => {
 }
 
 .shop-section {
-  flex-shrink: 0;
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>
