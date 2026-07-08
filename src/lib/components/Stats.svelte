@@ -6,6 +6,7 @@ import { formatNumber } from "$lib/helpers";
 <div class="stats">
   <div class="cookie-count">{formatNumber(game.cookies)} 🍪</div>
   <div class="cps">per second: {formatNumber(game.cps)}</div>
+  <div class="cps">per click: {formatNumber(game.clickPower)}</div>
   <div class="total">total baked: {formatNumber(game.totalCookies)}</div>
 </div>
 

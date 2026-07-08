@@ -21,7 +21,7 @@ let unlocked = $derived(items.filter((item) => game.checkUnlocked(item.id)));
             <span class="item-count">[{owned}]</span>
           </div>
           <div class="item-cps">
-            {item.clickBonus > 0 ? `+${item.clickBonus.toLocaleString()} per click` : `${formatNumber(item.cps)}/s each`}
+            {item.clickBonus > 0 ? `+${formatNumber(item.clickBonus)} per click` : `+${formatNumber(item.cps)}/s`}
           </div>
         </div>
         <button
