@@ -36,7 +36,8 @@ function handleKeyUp() {
 }
 </script>
 
-<div class="cookie-wrapper" bind:this={wrapper}>
+<!-- adblockers don't like "cookie" -->
+<div class="biscuit-wrapper" bind:this={wrapper}>
   <button
     type="button"
     class="cookie-btn"
@@ -63,7 +64,7 @@ function handleKeyUp() {
 </div>
 
 <style>
-.cookie-wrapper {
+.biscuit-wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -71,7 +72,7 @@ function handleKeyUp() {
 }
 
 .cookie-btn {
-  font-size: clamp(120px, 30vw, 240px);
+  font-size: clamp(180px, 50vw, 280px);
   cursor: pointer;
   background: none;
   border: none;

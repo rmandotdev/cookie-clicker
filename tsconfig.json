@@ -4,7 +4,6 @@
     "rewriteRelativeImportExtensions": true,
 
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
 
     "strict": true,

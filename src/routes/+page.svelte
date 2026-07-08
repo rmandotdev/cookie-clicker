@@ -32,7 +32,11 @@ onMount(() => {
   </header>
 
   <main class="main">
-    <section class="cookie-section">
+    <!-- balances the shop so the biscuit stays centered on wide screens -->
+    <div class="left-spacer" aria-hidden="true"></div>
+
+    <!-- adblockers don't like "cookie" -->
+    <section class="biscuit-section">
       <Cookie />
     </section>
 
@@ -50,6 +54,7 @@ onMount(() => {
   background: #09090b;
   color: #e4e4e7;
   font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
 }
 
 .header {
@@ -62,21 +67,46 @@ onMount(() => {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 2rem;
   padding: 1rem 2rem;
-  position: relative;
 }
 
-.cookie-section {
+.left-spacer {
+  width: 20rem;
+  flex-shrink: 0;
+}
+
+.biscuit-section {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
 
 .shop-section {
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
+  width: 20rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
+  .left-spacer {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .biscuit-section {
+    flex: initial;
+  }
+
+  .shop-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>
