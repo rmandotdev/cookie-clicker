@@ -54,24 +54,6 @@ export function tryBuyItem(
   };
 }
 
-export function tick(ctx: UnlockContext, deltaSeconds: number): UnlockContext {
-  const clamped = Math.min(deltaSeconds, 1);
-  const gained = computeCps(ctx.itemsOwned) * clamped;
-  return {
-    ...ctx,
-    cookies: ctx.cookies + gained,
-    totalCookies: ctx.totalCookies + gained,
-  };
-}
-
 export function initialItemsOwned(): Record<string, number> {
   return Object.fromEntries(items.map((item) => [item.id, 0]));
-}
-
-export function gatherUnlockContext(
-  itemsOwned: Record<string, number>,
-  cookies: number,
-  totalCookies: number,
-): UnlockContext {
-  return { itemsOwned, cookies, totalCookies };
 }

@@ -2,17 +2,25 @@ import { describe, expect, test } from "bun:test";
 import {
   computeClickPower,
   computeCps,
-  gatherUnlockContext,
   getItemCost,
   initialItemsOwned,
   isUnlocked,
-  tick,
   tryBuyItem,
 } from "#lib/game";
-import { items } from "#lib/items";
+import { items, type UnlockContext } from "#lib/items";
 
 function owned(overrides: Record<string, number> = {}): Record<string, number> {
   return { ...initialItemsOwned(), ...overrides };
+}
+
+function tick(ctx: UnlockContext, deltaSeconds: number): UnlockContext {
+  const clamped = Math.min(deltaSeconds, 1);
+  const gained = computeCps(ctx.itemsOwned) * clamped;
+  return {
+    ...ctx,
+    cookies: ctx.cookies + gained,
+    totalCookies: ctx.totalCookies + gained,
+  };
 }
 
 function ctx(
@@ -20,7 +28,7 @@ function ctx(
   cookies = 0,
   totalCookies = 0,
 ) {
-  return gatherUnlockContext(itemsOwned, cookies, totalCookies);
+  return { itemsOwned, cookies, totalCookies };
 }
 
 describe("computeCps", () => {
