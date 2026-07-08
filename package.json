@@ -2,6 +2,9 @@
   "name": "cookie-clicker",
   "private": true,
   "type": "module",
+  "imports": {
+    "#lib/*": "./src/lib/*.ts"
+  },
   "scripts": {
     "build": "vite build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -10,7 +13,8 @@
     "format": "biome check --write",
     "lint": "biome check",
     "prepare": "svelte-kit sync",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "bun test"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.2",
