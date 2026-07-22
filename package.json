@@ -20,7 +20,7 @@
     "wrangler:deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.4",
+    "@biomejs/biome": "2.5.5",
     "@gameroman/config": "0.2.5",
     "@sveltejs/adapter-static": "3.0.10",
     "@sveltejs/kit": "2.70.0",
