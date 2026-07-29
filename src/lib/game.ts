@@ -1,5 +1,6 @@
 import { itemCost } from "./helpers";
-import { type Item, items, type UnlockContext } from "./items";
+import type { Item, UnlockContext } from "./items";
+import { items } from "./items";
 
 export function computeCps(itemsOwned: Record<string, number>): number {
   let total = 0;

@@ -7,7 +7,8 @@ import {
   isUnlocked,
   tryBuyItem,
 } from "#lib/game";
-import { items, type UnlockContext } from "#lib/items";
+import type { UnlockContext } from "#lib/items";
+import { items } from "#lib/items";
 
 function owned(overrides: Record<string, number> = {}): Record<string, number> {
   return { ...initialItemsOwned(), ...overrides };
