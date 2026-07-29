@@ -1,10 +1,7 @@
 <script lang="ts">
 import { game } from "$lib/game.svelte";
-import {
-  createParticle,
-  PARTICLE_LIFETIME,
-  type Particle,
-} from "$lib/particles";
+import type { Particle } from "$lib/particles";
+import { createParticle, PARTICLE_LIFETIME } from "$lib/particles";
 
 let holding = $state(false);
 
