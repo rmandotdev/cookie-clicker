@@ -118,6 +118,7 @@ let unlocked = $derived(items.filter((item) => game.checkUnlocked(item.id)));
   cursor: pointer;
   transition: background 0.1s;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .buy-btn:disabled {
