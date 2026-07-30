@@ -87,6 +87,7 @@ function handleKeyUp() {
   -webkit-tap-highlight-color: transparent;
   transform: scale(1);
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  touch-action: manipulation;
 }
 
 .cookie-btn:hover {
