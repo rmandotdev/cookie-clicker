@@ -15,4 +15,5 @@ export default defineConfig({
       adapter: adapter({ fallback: "index.html", pages: "dist" }),
     }),
   ],
+  build: { target: "safari15", cssTarget: "safari15" },
 });
