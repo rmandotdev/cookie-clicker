@@ -103,7 +103,7 @@ let unlocked = $derived(items.filter((item) => game.checkUnlocked(item.id)));
 
 .item-cps {
   font-size: 0.75rem;
-  color: #71717a;
+  color: #a1a1aa;
 }
 
 .buy-btn {

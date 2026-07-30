@@ -31,6 +31,6 @@ import { formatNumber } from "$lib/helpers";
 
 .total {
   font-size: 0.875rem;
-  color: #71717a;
+  color: #a1a1aa;
 }
 </style>
