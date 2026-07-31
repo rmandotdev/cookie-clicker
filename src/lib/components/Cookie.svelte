@@ -75,6 +75,7 @@ function handleKeyUp() {
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
 }
 
 .cookie-btn {
@@ -121,6 +122,7 @@ function handleKeyUp() {
   z-index: 10;
   opacity: 0;
   animation: cookiePop 0.6s ease-out both;
+  touch-action: manipulation;
 }
 
 @keyframes cookiePop {
